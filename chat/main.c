@@ -249,6 +249,8 @@ void DrawSplash()
 
 }
 
+#ifndef PAINT_TEST
 void _start() {
     main();
 }
+#endif

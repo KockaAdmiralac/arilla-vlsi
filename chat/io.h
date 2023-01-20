@@ -1,8 +1,6 @@
 #ifndef _IO_H_
 #define _IO_H_
 
-//TODO Have to define test here
-#define PAINT_TEST
 // Use test functions for writing to memory/io
 
 void out(unsigned int address,unsigned int value);

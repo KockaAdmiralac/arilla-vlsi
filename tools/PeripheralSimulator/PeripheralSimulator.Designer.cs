@@ -41,7 +41,7 @@ namespace PeripheralSimulator
             this.tbExe.Name = "tbExe";
             this.tbExe.Size = new System.Drawing.Size(306, 20);
             this.tbExe.TabIndex = 0;
-            this.tbExe.Text = "..\\..\\..\\chat\\bin\\Debug\\Chat.exe";
+            this.tbExe.Text = "../../../chat/bin/Debug/Chat.exe";
             // 
             // btnRun
             // 
