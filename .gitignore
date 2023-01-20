@@ -20,8 +20,14 @@ simulation/
 output_files/
 # Has tmp in the name so i assume its safe to ignore
 greybox_tmp/
-*.qdf
 *.rpt
+
+## Questa/ModelSim generated files
+work
+transcript
+covhtmlreport
+*.ucdb
+*.wlf
 
 ## Visual Studio
 # User-specific files
