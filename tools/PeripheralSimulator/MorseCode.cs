@@ -19,7 +19,7 @@ namespace PeripheralSimulator
         public bool outNempty;
         public uint res = 0;
 
-        public char pop(string s) 
+        public char pop(ref string s) 
         {
             if (s.Length > 0)
             {
@@ -34,7 +34,7 @@ namespace PeripheralSimulator
             }
         }
 
-        public void push(string s, char c) 
+        public void push(ref string s, char c) 
         {
             s = s + c;
             outNempty = true;
@@ -79,7 +79,7 @@ namespace PeripheralSimulator
                         return Status();
                     }
                 case 8: { 
-                        char c = pop(input);
+                        char c = pop(ref input);
                         UpdateUi();
                         return c;
                     }
@@ -116,7 +116,7 @@ namespace PeripheralSimulator
                         return;
                     }
                 case 8: { 
-                        push(output,(char)(value&0x7F));
+                        push(ref output,(char)(value&0x7F));
                         UpdateUi();
                         return;
                     }
