@@ -66,7 +66,15 @@ namespace PeripheralSimulator
             psi.WindowStyle = ProcessWindowStyle.Minimized;
             Process p = new Process();
             p.StartInfo = psi;
-            p.Start();
+            try
+            {
+                p.Start();
+            }
+            catch
+            {
+                MessageBox.Show("Specified process could not be started! Please check if the path exists.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
 
             while (run)
             {
