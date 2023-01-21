@@ -14,6 +14,7 @@ extern const unsigned int KEYBOARD_DEBC_MASK;
 extern const unsigned int KEYBOARD_DEB_POS;
 
 extern const unsigned int KEY_CODE_ENTER;
+extern const unsigned int KEY_CODE_BACKSPACE;
 
 void keyboardSetCDC(unsigned int val);
 void keyboardSetDEB(unsigned int val);
