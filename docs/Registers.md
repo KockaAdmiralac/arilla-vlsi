@@ -38,10 +38,6 @@
   - **25** *r*: Frame error flag
   - **24** *r*: Parity error flag
   - **23..0** *r*: PS/2 scan code
-  
-  
-  
-  
 
 ## Morse code transciever
 
