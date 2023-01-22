@@ -3,7 +3,7 @@ module LED_controller
     input [9:0] DEBUG_OUT,
     input MC_OUT,
     input MC_IN,
-    input MC_REC_REG[7:0],
+    input [7:0] MC_REC_REG,
     input LED_SEL,
     output [9:0] LED
 );
