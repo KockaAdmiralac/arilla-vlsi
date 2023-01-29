@@ -4,8 +4,8 @@ SIMUL_LIB = work
 # 0(no)  -> do NOT override timescale
 SIMUL_IS_TIMESCALE_OVERRIDEN = 1
 SIMUL_TIMESCALE = "1 ps / 1 ps"
-SIMUL_RUN_TCL_SCRIPT = ./tools/makefile/run.tcl
-SIMUL_WAVEFORM_MACRO = ./tools/makefile/waveform-define.do
+SIMUL_RUN_TCL_SCRIPT = ./tools/vlsi_tooling/run.tcl
+SIMUL_WAVEFORM_MACRO = ./tools/vlsi_tooling/waveform-define.do
 SIMUL_WAVEFORM_FILE = ./waveform.wlf
 SIMUL_VLOG_LOG_FILE = ./vlog_compile.log
 COVER_DB_FILE = ./ps2_cov.ucdb
@@ -24,16 +24,16 @@ SYNTH_DEVICE_FAMILY = CycloneIII
 # EP3C16F484C6 (CycloneIII)
 # 5CEBA4F23C7 (CycloneV)
 SYNTH_DEVICE_PART = EP3C16F484C6
-SYNTH_CYCLONE3_DEFAULT_ASSIGNMENT_FILE = ./tools/makefile/boards/cyclone3/assignment_defaults.qdf
-SYNTH_CYCLONE5_DEFAULT_ASSIGNMENT_FILE = ./tools/makefile/boards/cyclone5/assignment_defaults.qdf
-SYNTH_CYCLONE5_CONSTRAINTS_FILE = ./tools/makefile/boards/cyclone5/DE0_CV_TOP.sdc
+SYNTH_CYCLONE3_DEFAULT_ASSIGNMENT_FILE = ./tools/vlsi_tooling/boards/cyclone3/assignment_defaults.qdf
+SYNTH_CYCLONE5_DEFAULT_ASSIGNMENT_FILE = ./tools/vlsi_tooling/boards/cyclone5/assignment_defaults.qdf
+SYNTH_CYCLONE5_CONSTRAINTS_FILE = ./tools/vlsi_tooling/boards/cyclone5/DE0_CV_TOP.sdc
 # either empty variable or path ending with \\ i.e. double backslash
 # C:\\altera\\13.0sp1\\quartus\\bin\\ 
 SYNTH_TOOL_EXE_DIR_PATH = C:\\altera\\13.0sp1\\quartus\\bin\\
 
-LIST_FILE_ICARUS = ./tools/makefile/list-icarus-verilog.lst
-LIST_FILE_SIMUL = ./tools/makefile/list-src-files-simul.lst
-LIST_FILE_SYNTH = ./tools/makefile/list-src-files-synth.lst
+LIST_FILE_ICARUS = ./tools/vlsi_tooling/list-icarus-verilog.lst
+LIST_FILE_SIMUL = ./tools/vlsi_tooling/list-src-files-simul.lst
+LIST_FILE_SYNTH = ./tools/vlsi_tooling/list-src-files-synth.lst
 
 all: help
 
