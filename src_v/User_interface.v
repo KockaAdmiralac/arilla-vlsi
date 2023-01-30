@@ -1,16 +1,26 @@
-module User_interface
+module user_interface
 (
-    input [9:0] SW,
-    input [3:0] BTN,
-    output rst,
-    output [9:0] D_SW,
-    output [2:0] D_BTN,
-    output [1:0] CNTRL
+	input  [9:0] switch,
+	input  [3:0] button,
+	output rst,
+	output [9:0] debug_switch,
+	output [2:0] debug_button,
+	output led_select,
+	output seven_segment_select
 );
 
-assign rst = ~BTN[0];
-assign D_SW[9:0] = {SW[9],7'd0,SW[8],SW[7]};
-assign D_BTN[2:0] = {BTN[2:1],1'b0};
-assign CNTRL[1:0] = SW[1:0];
+//button 0 reset
+assign rst = ~button[0];
+//switch 9 enable instruction step
+//switch 8 display opcode
+//switch 7 enable single step
+assign debug_switch[9:0] = {switch[9],7'd0,switch[8:7]};
+//button 2 single step
+//button 1 instruction step
+assign debug_button[2:0] = {button[2:1],1'b0};
+//switch 1 select led display
+assign led_select = switch[1];
+//switch 0 select seven segment display
+assign seven_segment_select = switch[0];
 
 endmodule

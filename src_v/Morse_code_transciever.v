@@ -1,211 +1,236 @@
-module Morse_code_transciever
+module morse_code_transciever
 (
-    input RD,
-    input WR,
-    input [31:0] ADDR,
-    inout [31:0] DATA,
+	inout  [31:0] data,
+	input  [31:0] address,
+	input  read,
+	input  write,
 
-    //input clk,
-    //input rst_n,
+	input  in,
+	output out,
+	
+	output line_invert,
+	output line_loop,
+	output sound_enable,
+	output sound_sample_select,
+	output [7:0] receive_history,
 
-    input IN,
-    output OUT,
-    output INV,
-    output LOOP,
-    output SOUND_EN,
-    output SOUND_SAMP,
-    output [7:0] REC_REG
+	input  clk,
+	input  rst_n
 );
 
-/*wire [31:0] BIT_TIME;
-wire SF_R,SF_W,RF_R,RF_W;
-wire [31:0] SF_DI;
-wire [31:0] SF_DO;
-wire [31:0] RF_DI;
-wire [31:0] RF_DO;
+localparam ETX_ASCII = 8'h03;
 
-wire START_TRANS;
-wire TRANNS_CMPL;
-reg trans;
+reg transmit_reg, transmit_next;
+reg receive_reg, receive_next;
 
-wire RECV_EN;
+wire [31:0] bit_time;
+wire  [2:0] current_sign;
+wire  [7:0] current_character;
+wire  [7:0] current_ascii;
+wire  [7:0] character_data;
+wire  [7:0] character_ascii;
+wire  [7:0] transmit_fifo_data_in;
+wire  [7:0] transmit_fifo_data_out;
+wire  [7:0] receive_fifo_data_in;
+wire  [7:0] receive_fifo_data_out;
 
-wire SF_F,SF_NE,RF_F,RF_NE;
-
-MC_arillaBus_interface u_MC_arillaBus_interface (
-    .DATA           (DATA),
-    .ADDR           (ADDR),
-    .RD             (RD),
-    .WR             (WR),
-    .clk            (clk),
-    .rst_n          (rst_n),
-    .BIT_TIME       (BIT_TIME),
-    .FIFO_IN        (SF_DI),
-    .FIFO_OUT       (RF_DO),
-    .LOOP           (LOOP),
-    .INV            (INV),
-    .SOUND_EN       (SOUND_EN),
-    .SOUND_SAMP     (SOUND_SAMP),
-    .TRANS_IP       (trans),
-    .START_TRANS    (START_TRANS),
-    .RECV_EN        (RECV_EN),
-    .SEND_F         (SF_F),
-    .SEND_NE        (SF_NE),
-    .RECV_F         (RF_F),
-    .RECV_NE        (RF_NE),
-    .FIFO_READ      (RF_R),
-    .FIFO_WRITE     (SF_W)
-);
-
-FIFO #(
-    .BUS_WIDTH     (7),
-    .DATA_WIDTH    (8)
-) SF (
-    .clk           (clk),
-    .rst_n         (rst_n),
-    .RD            (SF_R),
-    .WR            (SF_W),
-    .DIN           (SF_DI),
-    .DOUT          (SF_DO),
-    .full          (SF_F),
-    .notEmpty      (SF_NE)
-);
-
-FIFO #(
-    .BUS_WIDTH     (7),
-    .DATA_WIDTH    (8)
-) RF (
-    .clk           (clk),
-    .rst_n         (rst_n),
-    .RD            (RF_R),
-    .WR            (RF_W),
-    .DIN           (RF_DI),
-    .DOUT          (RF_DO),
-    .full          (RF_F),
-    .notEmpty      (RF_NE)
-);
-
-always @(posedge clk,negedge rst_n) begin
-    if(!rst_n)
-    begin
-        trans <= 1'b0;
-    end
-    else
-    begin
-        if(START_TRANS)
-        begin
-            trans <= 1'b1;
-        end
-        if(TRANNS_CMPL)
-        begin
-            trans <= 1'b0;
-        end
-    end
-end*/
-
-reg clk;
-reg rst_n;
-
-reg [7:0] IN_DATA;
-wire [7:0] P_DATA;
-
-MC_ROM TXROM (
-    .in     (IN_DATA),
-    .out    (P_DATA)
-);
-
-wire [31:0] BIT_TIME = 32'd20;
-reg start;
+wire receive_enable;
+wire sound_enable_bus;
+wire start_transmission;
+wire message_start;
+wire shift;
 wire sample;
+wire next_sign;
+wire next_character;
+wire write_character;
 
-Async_timer u_Async_timer (
-    .clk               (clk),
-    .rst_n             (rst_n),
-    .BIT_TIME          (BIT_TIME),
-    .start             (start),
-    .sample            (sample)
+wire dot;
+wire dash;
+wire character_break;
+wire space;
+wire etx;
+
+wire transmit_fifo_read;
+wire transmit_fifo_write;
+wire transmit_fifo_full;
+wire transmit_fifo_has_data;
+
+wire receive_fifo_read;
+wire receive_fifo_write;
+wire receive_fifo_full;
+wire receive_fifo_has_data;
+
+assign sound_enable = sound_enable_bus && bit_time >= 32'd50_000;
+
+assign current_ascii = (transmit_reg && transmit_fifo_has_data) ? transmit_fifo_data_out : 8'd0;
+assign transmit_fifo_read = next_character && transmit_reg && transmit_fifo_has_data;
+
+assign receive_fifo_data_in = character_ascii;
+assign receive_fifo_write = write_character && receive_reg && !receive_fifo_full;
+
+edge_detector message_start_detector(
+	.in         (in),
+	.rising     (message_start),
+	.clk        (clk),
+	.rst_n      (rst_n)
 );
 
-
-wire [2:0]S_DATA;
-wire next;
-wire req;
-wire S_OUT;
-
-Morse_shift_out u_Morse_shift_out (
-    .clk       (clk),
-    .rst_n     (rst_n),
-    .P_DATA    (S_DATA),
-    .shift     (sample),
-    .S_DATA    (S_OUT),
-    .next      (req)
+sampling_timer transmit_timer(
+	.start       (1'b0),
+	.bit_time    (bit_time),
+	.sample      (shift),
+	.clk         (clk),
+	.rst_n       (rst_n)
 );
 
-Char_decoder u_Char_decoder (
-    .clk            (clk),
-    .rst_n          (rst_n),
-    .P_DATA         (P_DATA),
-    .req            (req),
-    .S_DATA         (S_DATA),
-    .next           (next)
+sampling_timer receive_timer(
+	.start       (message_start),
+	.bit_time    (bit_time),
+	.sample      (sample),
+	.clk         (clk),
+	.rst_n       (rst_n)
 );
 
-always begin
+transmit_shift_register transmit_shift_register(
+	.paralel_data    (current_sign),
+	.shift           (shift),
+	.serial_data     (out),
+	.request         (next_sign),
+	.clk             (clk),
+	.rst_n           (rst_n)
+);
 
-    @(posedge next)
-    IN_DATA = 0;
-    @(posedge next)
-    IN_DATA = 0;
-    @(posedge next)
-    IN_DATA = 8'h41;
-    @(posedge next)
-    IN_DATA = 8'h42;
-    @(posedge next)
-    IN_DATA = 8'h20;
-    @(posedge next)
-    IN_DATA = 8'h43;
-    @(posedge next)
-    IN_DATA = 8'h44;
-    @(posedge next)
-    IN_DATA = 8'h03;
-    @(posedge next)
-    IN_DATA = 8'h45;
-    @(posedge next)
-    IN_DATA = 8'h46;
-    @(posedge next)
-    IN_DATA = 8'h20;
-    @(posedge next)
-    IN_DATA = 8'h47;
-    @(posedge next)
-    IN_DATA = 8'h48;
-    @(posedge next)
-    IN_DATA = 8'h03;
+receive_shift_register receive_shift_register(
+	.serial_data        (in),
+	.sample             (sample),
+	.dot                (dot),
+	.dash               (dash),
+	.character_break    (character_break),
+	.space              (space),
+	.etx                (etx),
+	.receive_history    (receive_history),
+	.clk                (clk),
+	.rst_n              (rst_n)
+);
+
+char_decoder char_decoder(
+	.paralel_data        (current_character),
+	.incoming_request    (next_sign),
+	.serial_data         (current_sign),
+	.outgoing_request    (next_character),
+	.clk                 (clk),
+	.rst_n               (rst_n)
+);
+
+char_encoder char_encoder(
+	.dot                 (dot),
+	.dash                (dash),
+	.character_break     (character_break),
+	.space               (space),
+	.etx                 (etx),
+	.character_data      (character_data),
+	.outgoing_request    (write_character),
+	.clk                 (clk),
+	.rst_n               (rst_n)
+);
+
+morse_code_transmit_rom morse_code_transmit_rom(
+	.in     (current_ascii),
+	.out    (current_character)
+);
+
+morse_code_receive_rom morse_code_receive_rom(
+	.in     (character_data),
+	.out    (character_ascii)
+);
+
+fifo #(
+	.BusWidth     (7),
+	.DataWidth    (8)
+) transmit_fifo(
+	.read         (transmit_fifo_read),
+	.write        (transmit_fifo_write),
+	.data_in      (transmit_fifo_data_in),
+	.data_out     (transmit_fifo_data_out),
+	.full         (transmit_fifo_full),
+	.has_data     (transmit_fifo_has_data),
+	.clk          (clk),
+	.rst_n        (rst_n)
+);
+
+fifo #(
+	.BusWidth     (7),
+	.DataWidth    (8)
+) receive_fifo(
+	.read         (receive_fifo_read),
+	.write        (receive_fifo_write),
+	.data_in      (receive_fifo_data_in),
+	.data_out     (receive_fifo_data_out),
+	.full         (receive_fifo_full),
+	.has_data     (receive_fifo_has_data),
+	.clk          (clk),
+	.rst_n        (rst_n)
+);
+
+transciever_bus_interface transciever_bus_interface(
+	.data_wire                   (data),
+	.address_wire                (address),
+	.read                        (read),
+	.write_wire                  (write),
+	.receive_fifo_data           (receive_fifo_data_out),
+	.transmit_fifo_data          (transmit_fifo_data_in),
+	.bit_time                    (bit_time),
+	.line_loop                   (line_loop),
+	.line_invert                 (line_invert),
+	.sound_enable                (sound_enable_bus),
+	.sound_sample_select         (sound_sample_select),
+	.transmission_in_progress    (transmit_reg),
+	.start_transmission          (start_transmission),
+	.receive_enable              (receive_enable),
+	.transmit_fifo_full          (transmit_fifo_full),
+	.transmit_fifo_has_data      (transmit_fifo_has_data),
+	.receive_fifo_full           (receive_fifo_full),
+	.receive_fifo_has_data       (receive_fifo_has_data),
+	.receive_fifo_read           (receive_fifo_read),
+	.transmit_fifo_write         (transmit_fifo_write),
+	.clk                         (clk),
+	.rst_n                       (rst_n)
+);
+
+always @(posedge clk, negedge rst_n) begin
+	if(!rst_n)
+	begin
+		transmit_reg <= 1'b0;
+		receive_reg <= 1'b0;
+	end
+	else
+	begin
+		transmit_reg <= transmit_next;
+		receive_reg <= receive_next;
+	end
 end
 
-initial begin
-    
-    clk = 0;
+always @(*) begin
+	transmit_next <= transmit_reg;
+	receive_next <= receive_reg;
 
-    rst_n =0;
-    start =0;
+	if(start_transmission)
+	begin
+		transmit_next <= 1'b1;
+	end
+	else if((transmit_fifo_data_out == ETX_ASCII && next_character) || !transmit_fifo_has_data)
+	begin
+		transmit_next <= 1'b0;
+	end
 
-    #5;
-
-    rst_n =1;
-     
-
-
-    #5;
-
-    forever begin
-            clk = 1;
-
-            #10;
-
-            clk = 0;
-
-            #10;        
-    end
+	if(message_start && receive_enable)
+	begin
+		receive_next <= 1'b1;
+	end
+	else if(receive_fifo_data_in == ETX_ASCII && write_character)
+	begin
+		receive_next <= 1'b0;
+	end
 end
 
 endmodule

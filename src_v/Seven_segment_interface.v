@@ -1,20 +1,22 @@
-module Seven_segment_interface
+module seven_segment_interface
 (
-    input [23:0] PC,
-    input [23:0] K_CD,
-    input pc_n,
-    output [47:0] HEX
+	input  [23:0] pc,
+	input  [23:0] key_code,
+	input  seven_segment_select,
+	output [41:0] hex
 );
 
 wire [23:0] val;
 
-assign val = pc_n ? K_CD : PC;
+//option 0 core program counter
+//option 1 keyboard key code
+assign val = seven_segment_select ? key_code : pc;
 
-Single_hex_interface hex0(val[3 : 0],HEX[ 7: 0]);
-Single_hex_interface hex1(val[7 : 4],HEX[15: 8]);
-Single_hex_interface hex2(val[11: 8],HEX[23:16]);
-Single_hex_interface hex3(val[15:12],HEX[31:24]);
-Single_hex_interface hex4(val[19:16],HEX[39:32]);
-Single_hex_interface hex5(val[23:20],HEX[47:40]);
+single_hex_interface hex0(val[3 : 0],hex[ 6: 0]);
+single_hex_interface hex1(val[7 : 4],hex[13: 7]);
+single_hex_interface hex2(val[11: 8],hex[20:14]);
+single_hex_interface hex3(val[15:12],hex[27:21]);
+single_hex_interface hex4(val[19:16],hex[34:28]);
+single_hex_interface hex5(val[23:20],hex[41:35]);
 
 endmodule

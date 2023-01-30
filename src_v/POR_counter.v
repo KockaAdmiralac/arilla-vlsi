@@ -1,28 +1,29 @@
-module POR_counter
+module por_counter
 #(
-    parameter POR_VALUE = 5050
+	parameter PorValue = 32'd5050
 )
 (
-    input rst,
-    input clk,
-    output rst_p,
-    output rst_n
+	output rst_p,
+	output rst_n,
+	
+	input  clk,
+	input  rst
 );
 
-integer val;
+reg [31:0] val;
 
-assign rst_p = val != 0;
-assign rst_n = val == 0;
+assign rst_p = val != 32'd0;
+assign rst_n = val == 32'd0;
 
 always @(posedge clk) begin
-    if(rst)
-    begin
-        val <= POR_VALUE;
-    end
-    else if(val != 0)
-    begin
-        val <= val - 1;
-    end
+	if(rst)
+	begin
+		val <= PorValue;
+	end
+	else if(val != 32'd0)
+	begin
+		val <= val - 32'd1;
+	end
 end
 
 endmodule

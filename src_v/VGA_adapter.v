@@ -1,30 +1,32 @@
-module VGA_adapter
+module vga_adapter
 (
-    input [3:0] R,
-    input [3:0] G,
-    input [3:0] B,
-    input HSYNC,
-    input VSYNC,
-    input VDO_OUT,
-    input clk,
-    output [7:0] VGA_R,
-    output [7:0] VGA_G,
-    output [7:0] VGA_B,
-    output VGA_HSYNC,
-    output VGA_VSYNC,
-    output VGA_CLK,
-    output VGA_BLANK_N,
-    output VGA_SYNC_N
+	input  [3:0] r,
+	input  [3:0] g,
+	input  [3:0] b,
+	input  horizontal_sync,
+	input  vertical_sync,
+	input  video_output,
+	
+	output [7:0] vga_r,
+	output [7:0] vga_g,
+	output [7:0] vga_b,
+	output vga_horizontal_sync,
+	output vga_vertical_sync,
+	output vga_clk,
+	output vga_blank_n,
+	output vga_sync_n,
+
+	input  clk
 );
 
-assign VGA_R = {R,R};
-assign VGA_G = {G,G};
-assign VGA_B = {B,B};
+assign vga_r = {r,r};
+assign vga_g = {g,g};
+assign vga_b = {b,b};
 
-assign VGA_HSYNC = HSYNC;
-assign VGA_VSYNC = VSYNC;
-assign VGA_CLK = clk;
-assign VGA_BLANK_N = VDO_OUT;
-assign VGA_SYNC_N = 0;
+assign vga_horizontal_sync = horizontal_sync;
+assign vga_vertical_sync = vertical_sync;
+assign vga_clk = clk;
+assign vga_blank_n = video_output;
+assign vga_sync_n = 1'b0;
 
 endmodule
