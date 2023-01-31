@@ -4312,12 +4312,6 @@ https://fpgasoftware.intel.com/eula.
 	(bus)
 )
 (connector
-	(text "ALUPC[31..0]" (rect 992 1480 1060 1492)(font "Arial" ))
-	(pt 984 1496)
-	(pt 1112 1496)
-	(bus)
-)
-(connector
 	(text "ALUPC[31..0]" (rect 995 1496 1063 1508)(font "Arial" ))
 	(pt 984 1512)
 	(pt 1112 1512)
@@ -4529,6 +4523,12 @@ https://fpgasoftware.intel.com/eula.
 	(text "ba[3..0], cc[2..0], fault_signal, mxALUOP[0], wrMEM, mxMEM, mxALUOP[1] , wrbrPC, mxB[2], mxReg[0], wrReg, mxReg[1], wrC, mxA[1], mxB[1], wrAB, mxB[0], mxA[0], wrPC, mxPC, wrIR" (rect 744 1808 1686 1820)(font "Arial" )(invisible))
 	(pt 744 1824)
 	(pt 776 1824)
+	(bus)
+)
+(connector
+	(text "ALUPC[31..12], zero, zero, zero, zero, zero, zero, zero, zero, zero, zero, zero, zero" (rect 992 1480 1392 1492)(font "Arial" ))
+	(pt 984 1496)
+	(pt 1112 1496)
 	(bus)
 )
 (junction (pt 1200 184))
