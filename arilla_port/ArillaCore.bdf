@@ -4,19 +4,20 @@ editor if you plan to continue editing the block that represents it in
 the Block Editor! File corruption is VERY likely to occur.
 */
 /*
-Copyright (C) 1991-2013 Altera Corporation
-Your use of Altera Corporation's design tools, logic functions 
-and other software and tools, and its AMPP partner logic 
+Copyright (C) 2022  Intel Corporation. All rights reserved.
+Your use of Intel Corporation's design tools, logic functions 
+and other software and tools, and any partner logic 
 functions, and any output files from any of the foregoing 
 (including device programming or simulation files), and any 
 associated documentation or information are expressly subject 
-to the terms and conditions of the Altera Program License 
-Subscription Agreement, Altera MegaCore Function License 
-Agreement, or other applicable license agreement, including, 
-without limitation, that your use is for the sole purpose of 
-programming logic devices manufactured by Altera and sold by 
-Altera or its authorized distributors.  Please refer to the 
-applicable agreement for further details.
+to the terms and conditions of the Intel Program License 
+Subscription Agreement, the Intel Quartus Prime License Agreement,
+the Intel FPGA IP License Agreement, or other applicable license
+agreement, including, without limitation, that your use is for
+the sole purpose of programming logic devices manufactured by
+Intel and sold by Intel or its authorized distributors.  Please
+refer to the applicable agreement for further details, at
+https://fpgasoftware.intel.com/eula.
 */
 (header "graphic" (version "1.4"))
 (pin
@@ -670,7 +671,7 @@ applicable agreement for further details.
 		""
 		(type "PARAMETER_SIGNED_DEC")	)
 	(drawing
-		(text "LDCL REG" (rect 40 48 146 67)(font "Arial" (color 0 0 0)(font_size 12)(bold)))
+		(text "LDCL REG" (rect 40 48 137 67)(font "Arial" (color 0 0 0)(font_size 12)(bold)))
 		(rectangle (rect 16 16 152 104))
 	)
 	(annotation_block (parameter)(rect 1272 792 1469 848))
@@ -1123,7 +1124,7 @@ applicable agreement for further details.
 		""
 		(type "PARAMETER_SIGNED_DEC")	)
 	(drawing
-		(text "LDCL REG" (rect 40 48 146 67)(font "Arial" (color 0 0 0)(font_size 12)(bold)))
+		(text "LDCL REG" (rect 40 48 137 67)(font "Arial" (color 0 0 0)(font_size 12)(bold)))
 		(rectangle (rect 16 16 152 104))
 	)
 	(annotation_block (parameter)(rect 1904 1096 2101 1152))
@@ -1183,7 +1184,7 @@ applicable agreement for further details.
 		""
 		(type "PARAMETER_SIGNED_DEC")	)
 	(drawing
-		(text "LDCL REG" (rect 40 48 146 67)(font "Arial" (color 0 0 0)(font_size 12)(bold)))
+		(text "LDCL REG" (rect 40 48 137 67)(font "Arial" (color 0 0 0)(font_size 12)(bold)))
 		(rectangle (rect 16 16 152 104))
 	)
 	(annotation_block (parameter)(rect 1616 1096 1816 1152))
@@ -1243,7 +1244,7 @@ applicable agreement for further details.
 		""
 		(type "PARAMETER_SIGNED_DEC")	)
 	(drawing
-		(text "LDCL REG" (rect 40 48 146 67)(font "Arial" (color 0 0 0)(font_size 12)(bold)))
+		(text "LDCL REG" (rect 40 48 137 67)(font "Arial" (color 0 0 0)(font_size 12)(bold)))
 		(rectangle (rect 16 16 152 104))
 	)
 	(annotation_block (parameter)(rect 1848 1624 2048 1680))
@@ -1504,7 +1505,7 @@ applicable agreement for further details.
 		""
 		(type "PARAMETER_SIGNED_DEC")	)
 	(drawing
-		(text "SIGN EXT" (rect 32 16 128 35)(font "Arial" (color 0 0 0)(font_size 12)(bold)))
+		(text "SIGN EXT" (rect 32 16 120 35)(font "Arial" (color 0 0 0)(font_size 12)(bold)))
 		(rectangle (rect 16 16 128 64))
 	)
 	(annotation_block (parameter)(rect 1912 448 2094 490))
@@ -1538,7 +1539,7 @@ applicable agreement for further details.
 		""
 		(type "PARAMETER_SIGNED_DEC")	)
 	(drawing
-		(text "SIGN EXT" (rect 32 16 128 35)(font "Arial" (color 0 0 0)(font_size 12)(bold)))
+		(text "SIGN EXT" (rect 32 16 120 35)(font "Arial" (color 0 0 0)(font_size 12)(bold)))
 		(rectangle (rect 16 16 128 64))
 	)
 	(annotation_block (parameter)(rect 1928 560 2110 602))
@@ -1572,7 +1573,7 @@ applicable agreement for further details.
 		""
 		(type "PARAMETER_SIGNED_DEC")	)
 	(drawing
-		(text "SIGN EXT" (rect 32 16 128 35)(font "Arial" (color 0 0 0)(font_size 12)(bold)))
+		(text "SIGN EXT" (rect 32 16 120 35)(font "Arial" (color 0 0 0)(font_size 12)(bold)))
 		(rectangle (rect 16 16 128 64))
 	)
 	(annotation_block (parameter)(rect 1928 672 2110 714))
@@ -1742,7 +1743,7 @@ applicable agreement for further details.
 		""
 		(type "PARAMETER_SIGNED_DEC")	)
 	(drawing
-		(text "SIGN EXT" (rect 32 16 128 35)(font "Arial" (color 0 0 0)(font_size 12)(bold)))
+		(text "SIGN EXT" (rect 32 16 120 35)(font "Arial" (color 0 0 0)(font_size 12)(bold)))
 		(rectangle (rect 16 16 128 64))
 	)
 	(annotation_block (parameter)(rect 1936 784 2118 826))
@@ -1805,7 +1806,7 @@ applicable agreement for further details.
 		""
 		(type "PARAMETER_SIGNED_DEC")	)
 	(drawing
-		(text "SIGN EXT" (rect 32 16 128 35)(font "Arial" (color 0 0 0)(font_size 12)(bold)))
+		(text "SIGN EXT" (rect 32 16 120 35)(font "Arial" (color 0 0 0)(font_size 12)(bold)))
 		(rectangle (rect 16 16 128 64))
 	)
 	(annotation_block (parameter)(rect 1928 888 2110 930))
@@ -1926,7 +1927,7 @@ applicable agreement for further details.
 		""
 		(type "PARAMETER_SIGNED_DEC")	)
 	(drawing
-		(text "LD CL INC DEC REG" (rect 16 47 217 66)(font "Arial" (color 0 0 0)(font_size 12)(bold)))
+		(text "LD CL INC DEC REG" (rect 16 47 202 66)(font "Arial" (color 0 0 0)(font_size 12)(bold)))
 		(rectangle (rect 16 16 208 104))
 	)
 	(annotation_block (parameter)(rect 576 1728 773 1784))
@@ -2914,7 +2915,7 @@ applicable agreement for further details.
 		""
 		(type "PARAMETER_SIGNED_DEC")	)
 	(drawing
-		(text "LDCL REG" (rect 40 48 146 67)(font "Arial" (color 0 0 0)(font_size 12)(bold)))
+		(text "LDCL REG" (rect 40 48 137 67)(font "Arial" (color 0 0 0)(font_size 12)(bold)))
 		(rectangle (rect 16 16 152 104))
 	)
 	(annotation_block (parameter)(rect 456 184 653 240))
@@ -3378,12 +3379,6 @@ applicable agreement for further details.
 (connector
 	(pt 464 1768)
 	(pt 464 1824)
-	(bus)
-)
-(connector
-	(text "ba[3..0], cc[2..0], fault_signal, mxALUOP[0], wrMEM, mxMEM, mxALUOP[1] , wrbrPC, mxB[2], mxReg[0], wrReg, mxReg[1], wrC, mxA[1], mxB[1], wrAB, mxB[0], mxA[0], wrPC, mxPC, wrIR" (rect 744 1808 1686 1820)(font "Arial" )(invisible))
-	(pt 744 1824)
-	(pt 776 1824)
 	(bus)
 )
 (connector
@@ -4529,6 +4524,12 @@ applicable agreement for further details.
 	(text "zero" (rect 593 896 613 908)(font "Arial" ))
 	(pt 648 912)
 	(pt 584 912)
+)
+(connector
+	(text "ba[3..0], cc[2..0], fault_signal, mxALUOP[0], wrMEM, mxMEM, mxALUOP[1] , wrbrPC, mxB[2], mxReg[0], wrReg, mxReg[1], wrC, mxA[1], mxB[1], wrAB, mxB[0], mxA[0], wrPC, mxPC, wrIR" (rect 744 1808 1686 1820)(font "Arial" )(invisible))
+	(pt 744 1824)
+	(pt 776 1824)
+	(bus)
 )
 (junction (pt 1200 184))
 (junction (pt 992 456))
