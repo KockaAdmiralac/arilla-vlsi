@@ -79,7 +79,8 @@ always @(posedge clk, negedge rst_n) begin
 		data <= 32'd0;
 		address <= 32'd0;
 		write <= 1'b0;
-		bit_time_register <= 32'd20;
+		//bit_time_register <= 32'd20;
+		bit_time_register <= 32'd5_000_000;//Test values 10c/s
 		control_status_register <= 5'b00000;
 	end
 	else

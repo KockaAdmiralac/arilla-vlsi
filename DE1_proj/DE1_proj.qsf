@@ -18,7 +18,7 @@
 #
 # Quartus II 64-Bit
 # Version 13.0.1 Build 232 06/12/2013 Service Pack 1 SJ Web Edition
-# Date created = 00:39:37  January 31, 2023
+# Date created = 01:59:54  January 31, 2023
 #
 # -------------------------------------------------------------------------- #
 #
@@ -165,9 +165,9 @@ set_location_assignment PIN_A10 -to VGA_B[2]
 set_location_assignment PIN_B10 -to VGA_B[3]
 set_location_assignment PIN_H15 -to PS2_CLK
 set_location_assignment PIN_J14 -to PS2_DAT
-set_location_assignment PIN_A14 -to GPIO[2]
-set_location_assignment PIN_B13 -to GPIO[1]
-set_location_assignment PIN_A13 -to GPIO[0]
+set_location_assignment PIN_B13 -to GPIO[0]
+set_location_assignment PIN_B14 -to GPIO[1]
+set_location_assignment PIN_B15 -to GPIO[2]
 
 # Classic Timing Assignments
 # ==========================

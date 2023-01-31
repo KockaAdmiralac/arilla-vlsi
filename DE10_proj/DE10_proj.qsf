@@ -19,7 +19,7 @@
 #
 # Quartus Prime
 # Version 22.1std.0 Build 915 10/25/2022 SC Lite Edition
-# Date created = 00:30:24  January 31, 2023
+# Date created = 01:48:02  January 31, 2023
 #
 # -------------------------------------------------------------------------- #
 #
@@ -203,9 +203,9 @@ set_location_assignment PIN_AB25 -to PS2_CLK
 set_location_assignment PIN_AA25 -to PS2_DAT
 set_location_assignment PIN_Y24 -to I2C_SCLK
 set_location_assignment PIN_Y23 -to I2C_SDAT
-set_location_assignment PIN_W15 -to GPIO[0]
-set_location_assignment PIN_AK2 -to GPIO[1]
-set_location_assignment PIN_Y16 -to GPIO[2]
+set_location_assignment PIN_AK2 -to GPIO[0]
+set_location_assignment PIN_AK3 -to GPIO[1]
+set_location_assignment PIN_AJ2 -to GPIO[2]
 
 # Classic Timing Assignments
 # ==========================
