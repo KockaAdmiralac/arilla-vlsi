@@ -19,7 +19,7 @@
 #
 # Quartus Prime
 # Version 22.1std.0 Build 915 10/25/2022 SC Lite Edition
-# Date created = 01:48:02  January 31, 2023
+# Date created = 05:35:00  January 31, 2023
 #
 # -------------------------------------------------------------------------- #
 #
@@ -221,6 +221,8 @@ set_global_assignment -name SEARCH_PATH ../src_v/components/keyboard
 set_global_assignment -name SEARCH_PATH ../src_v/components/transciever
 set_global_assignment -name SEARCH_PATH ../src_v/components_mf
 set_global_assignment -name SEARCH_PATH ../arilla_port
+set_global_assignment -name SEARCH_PATH ../arilla_port/components
+set_global_assignment -name SEARCH_PATH ../arilla_port/components_mf
 set_global_assignment -name TOP_LEVEL_ENTITY top
 
 # Fitter Assignments

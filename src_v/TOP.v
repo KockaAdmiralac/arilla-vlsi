@@ -246,7 +246,7 @@ codec_driver u_codec_driver(
 	.i2c_sdat               (I2C_SDAT),
 	.i2c_sclk               (I2C_SCLK),
 	.clk                    (clk),
-	.rst_n                  (rst_n)
+	.rst_n                  (!rst)
 );
 
 vga_adapter u_vga_adapter(

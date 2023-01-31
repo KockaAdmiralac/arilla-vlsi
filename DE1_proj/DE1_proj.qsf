@@ -183,6 +183,8 @@ set_global_assignment -name SEARCH_PATH ../src_v/components/keyboard
 set_global_assignment -name SEARCH_PATH ../src_v/components/transciever
 set_global_assignment -name SEARCH_PATH ../src_v/components_mf
 set_global_assignment -name SEARCH_PATH ../arilla_port
+set_global_assignment -name SEARCH_PATH ../arilla_port/components
+set_global_assignment -name SEARCH_PATH ../arilla_port/components_mf
 set_global_assignment -name TOP_LEVEL_ENTITY top
 
 # Fitter Assignments
