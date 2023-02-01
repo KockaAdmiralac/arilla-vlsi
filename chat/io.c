@@ -20,8 +20,6 @@ unsigned int in(unsigned int address)
 
 #else
 
-//TODO This needs to be checked further
-
 __attribute__((naked)) void out(unsigned int address,unsigned int value)
 {
     (void)(address);

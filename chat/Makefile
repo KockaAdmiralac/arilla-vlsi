@@ -12,7 +12,7 @@ OBJDUMP = riscv32-unknown-linux-gnu-objdump
 CPP = riscv32-unknown-linux-gnu-gcc -E -P -x c
 
 FLAGS_CC =
-FLAGS_CC += -Wall -Wextra
+FLAGS_CC += -Wall -Wextra -O3
 FLAGS_CC += -MMD -MP
 FLAGS_CC += -march=rv32i -mabi=ilp32 -mstrict-align -nostdlib -ffreestanding
 
@@ -36,6 +36,7 @@ vpath %.c $(sort $(dir $(SOURCE_C_FILES)))
 all: $(BUILD_DIR)/$(PROGRAM).dump $(PROGRAM).mif
 
 $(BUILD_DIR)/$(PROGRAM).dump : $(BUILD_DIR)/$(PROGRAM).elf
+	size -A -d $(<)
 	$(OBJDUMP) -xsd $(<) >> $(@)
 
 $(PROGRAM).mif : $(BUILD_DIR)/$(PROGRAM).elf

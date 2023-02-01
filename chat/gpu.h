@@ -17,9 +17,6 @@ extern const unsigned int GPU_OPCODE_MASK;
 extern const unsigned int GPU_POSITION_MASK;
 extern const unsigned int GPU_COLOR_MASK;
 
-//TODO TMP
-extern unsigned int lastControl;
-
 void gpuStart();
 void gpuStop();
 
