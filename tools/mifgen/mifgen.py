@@ -1,9 +1,9 @@
 #!/usr/bin/env python
-
 import argparse
 import sys
 from os.path import getsize, splitext
 from functools import partial
+from math import ceil
 
 '''
               _ ____     
@@ -34,7 +34,7 @@ def main():
     # Proper file extensions
     if (args.output is None):
         args.output = splitext(args.input)[0] + '.mif'
-    elif (splitext(args.output)[1] != 'mif'):
+    elif (splitext(args.output)[1] != '.mif'):
         args.output += '.mif'
 
     # Check width
@@ -47,7 +47,7 @@ def main():
             file_size = getsize(args.input)
             output_file.writelines([
                 '%\n\tGenerated using mifgen - a part of the Arilla Tooling Project\n%\n',
-                f'DEPTH = {file_size};\n',
+                f'DEPTH = {ceil(file_size / (args.width // 8))};\n',
                 f'WIDTH = {args.width};\n',
                 'ADDRESS_RADIX = HEX;\n',
                 'DATA_RADIX = HEX;\n',
@@ -59,7 +59,7 @@ def main():
 
             for chunk in iter(reader, bytes()):
                 output_file.write(f'{line:x} : ')
-                for byte in chunk:
+                for byte in reversed(chunk):
                     output_file.write(f'{byte:02x}')
                 output_file.write(';\n')
                 line += 1
