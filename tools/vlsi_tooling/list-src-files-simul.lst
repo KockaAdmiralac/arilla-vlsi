@@ -1,2 +1,2 @@
-src_v/ps2kbd.v
+verification/ps2kbd.v
 verification/testbench.sv
