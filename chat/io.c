@@ -20,16 +20,17 @@ unsigned int in(unsigned int address)
 
 #else
 
-//TODO This needs to be checked further
-
 __attribute__((naked)) void out(unsigned int address,unsigned int value)
 {
+    (void)(address);
+    (void)(value);
     asm("sw a1,0(a0)");
     asm("ret");
 }
 
 __attribute__((naked)) unsigned int in(unsigned int address)
 {
+    (void)(address);
     asm("lw a0,0(a0)");
     asm("ret");
 }

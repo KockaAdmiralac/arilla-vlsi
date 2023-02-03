@@ -156,10 +156,12 @@ const char font8x8_basic[128][8] = {
 };
 
 
-void drawCharacterAligned(int character, int x, int y, int color) {
+void drawCharacterAligned(unsigned int character, unsigned int x, unsigned int y, unsigned int color)
+{
     character &= ASCII_MASK;
     if (x >= 100 || y >= 75) return;
-    for (int i = 0; i < 8; i++){
+    for (unsigned int i = 0; i < 8; i++)
+    {
         unsigned int row = font8x8_basic[character][i];
         for(int j=7;j>=0;j--)
         {
@@ -170,8 +172,10 @@ void drawCharacterAligned(int character, int x, int y, int color) {
     }
 }
 
-void drawStringAligned(const char *string, int x, int y, int color){
-    while(*string){
+void drawStringAligned(const char *string, unsigned int x, unsigned int y, unsigned int color)
+{
+    while(*string)
+    {
         drawCharacterAligned(*string, x++, y, color);
         string++;
     }

@@ -5,7 +5,7 @@
 
 extern const unsigned int ASCII_MASK;
 extern const char font8x8_basic[128][8];
-void drawCharacterAligned(int character, int row, int column, int color);
-void drawStringAligned(const char *string, int row, int column, int color);
+void drawCharacterAligned(unsigned int character, unsigned int row, unsigned int column, unsigned int color);
+void drawStringAligned(const char *string, unsigned int row, unsigned int column, unsigned int color);
 
 #endif

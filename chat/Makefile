@@ -1,42 +1,65 @@
-PROGRAM = Chat.exe
-BIN_DIR = bin
-OBJ_DIR = obj
-DEBUG_ENABLED = 1
-ifeq ($(DEBUG_ENABLED), 1)
-TARGET = Debug
-else
-TARGET = Release
-endif
+PROGRAM = chat
+BUILD_DIR = build
+LINKER_SCRIPT = linker-script.ld
+SRAM_LENGTH = 0x00006000
+LINK_VERBOSE = 0
 
-SOURCE_FILES = $(wildcard *.c */*.c)
-OBJECT_FILES = $(addprefix $(OBJ_DIR)/$(TARGET)/, $(notdir $(SOURCE_FILES:.c=.o)))
-
-CC = gcc -c -nostartfiles
-LD = gcc
+CC = riscv32-unknown-linux-gnu-gcc -c
+AS = riscv32-unknown-linux-gnu-gcc -c -x assembler
+LD = riscv32-unknown-linux-gnu-ld
+OBJCOPY = riscv32-unknown-linux-gnu-objcopy
+OBJDUMP = riscv32-unknown-linux-gnu-objdump
+CPP = riscv32-unknown-linux-gnu-gcc -E -P -x c
 
 FLAGS_CC =
-FLAGS_CC += -Wall -Wextra
+FLAGS_CC += -Wall -Wextra -O3
 FLAGS_CC += -MMD -MP
-ifeq ($(DEBUG_ENABLED), 1)
-FLAGS_CC += -g -DPAINT_TEST
+FLAGS_CC += -march=rv32i -mabi=ilp32 -mstrict-align -nostdlib -ffreestanding
+
+FLAGS_CPP =
+FLAGS_CPP += -D_ARILLA_SRAM_LENGTH=$(SRAM_LENGTH)
+
+FLAGS_LD =
+FLAGS_LD += --no-warn-rwx-segment
+ifeq ($(LINK_VERBOSE), 1)
+FLAGS_LD += --verbose -Map=$(BUILD_DIR)/$(PROGRAM).map
 endif
 
-all: $(BIN_DIR)/$(TARGET)/$(PROGRAM)
+SOURCE_C_FILES = $(wildcard *.c */*.c)
+SOURCE_S_FILES = $(wildcard *.s */*.s)
+OBJECT_FILES = $(addprefix $(BUILD_DIR)/, $(notdir $(SOURCE_S_FILES:.s=.o)))
+OBJECT_FILES += $(addprefix $(BUILD_DIR)/, $(notdir $(SOURCE_C_FILES:.c=.o)))
 
-$(BIN_DIR)/$(TARGET)/$(PROGRAM): $(OBJECT_FILES) Makefile | $(BIN_DIR)/$(TARGET)
-	$(LD) -o $(@) $(OBJECT_FILES)
+vpath %.s $(sort $(dir $(SOURCE_S_FILES))) 
+vpath %.c $(sort $(dir $(SOURCE_C_FILES)))
 
-$(OBJ_DIR)/$(TARGET)/%.o: %.c Makefile | $(OBJ_DIR)/$(TARGET)
+all: $(BUILD_DIR)/$(PROGRAM).dump $(PROGRAM).mif
+
+$(BUILD_DIR)/$(PROGRAM).dump : $(BUILD_DIR)/$(PROGRAM).elf
+	size -A -d $(<)
+	$(OBJDUMP) -xsd $(<) >> $(@)
+
+$(PROGRAM).mif : $(BUILD_DIR)/$(PROGRAM).elf
+	$(OBJCOPY) --output-target ihex $(<) out.hex
+	srec_cat out.hex -intel -fill 0x00 -within out.hex -intel -range-padding 4 --byte-swap 4 -output $(@) -Memory_Initialization_File 32
+	rm -f out.hex
+
+$(BUILD_DIR)/$(PROGRAM).elf : $(OBJECT_FILES) Makefile $(LINKER_SCRIPT) | $(BUILD_DIR)/$(LINKER_SCRIPT) 
+	$(LD) -T $(BUILD_DIR)/$(LINKER_SCRIPT) $(FLAGS_LD) -o $(@) $(OBJECT_FILES)
+
+$(BUILD_DIR)/$(LINKER_SCRIPT) : $(LINKER_SCRIPT) Makefile
+	$(CPP) $(FLAGS_CPP) $(LINKER_SCRIPT) >> $(@)
+
+$(BUILD_DIR)/%.o : %.s Makefile | $(BUILD_DIR)
+	$(AS) $(FLAGS_CC) -o $(@) $(<)
+
+$(BUILD_DIR)/%.o : %.c Makefile | $(BUILD_DIR)
 	$(CC) $(FLAGS_CC) -o $(@) $(<)
-
-$(OBJ_DIR)/$(TARGET):
-	mkdir -p $(OBJ_DIR)/$(TARGET)
-
-$(BIN_DIR)/$(TARGET):
-	mkdir -p $(BIN_DIR)/$(TARGET)
+	
+$(BUILD_DIR) :
+	mkdir $(@)
 
 clean:
-	rm -rf $(BIN_DIR)
-	rm -rf $(OBJ_DIR)
+	rm -rf $(BUILD_DIR)
 
--include $(wildcard $(OBJ_DIR)/$(TARGET)/*.d)
+-include $(wildcard $(BUILD_DIR)/*.d)

@@ -38,25 +38,22 @@
   - **25** *r*: Frame error flag
   - **24** *r*: Parity error flag
   - **23..0** *r*: PS/2 scan code
-  
-  
-  
-  
 
 ## Morse code transciever
 
 - `0x40000000`: Control/Status register
-  - **31..11**: Unused
+  - **31..12**: Unused
+  - **11** *w*: Increment input fifo
   - **10** *r/w*: Enable loopback
   - **9** *r/w*: Invert tx/rx lines
   - **8** *r/w*: Sound sample select
   - **7** *r/w*: Sound enable
   - **6** *r*: Transmision in progress
   - **5** *w*: Start transmision
-  - **4** *r/w*: Recieve enable
+  - **4** *r/w*: Receive enable
   - **3** *r*: Send buffer full
   - **2** *r*: Data available for sending
-  - **1** *r*: Recieve buffer full
+  - **1** *r*: Receive buffer full
   - **0** *r*: Data available
 - `0x40000004`: Bit time register
   - **31..00** *r/w*: Value for bit time clock divider
